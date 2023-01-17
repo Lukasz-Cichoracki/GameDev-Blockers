@@ -20,7 +20,7 @@ public class LogMovement : MonoBehaviour
 
     private Vector3 _logMove;
     private Vector3 _toStartPosition;
-
+    private Transform _playerTransform;
     IEnumerator Move()
     {
         while(true)
@@ -31,7 +31,11 @@ public class LogMovement : MonoBehaviour
                 transform.position += _toStartPosition;
                 continue;
             }
-            transform.position += _logMove;         
+            transform.position += _logMove;
+            if (_playerTransform != null)
+            {
+                _playerTransform.position = this.transform.position;
+            }
         }
     }
 
@@ -45,5 +49,15 @@ public class LogMovement : MonoBehaviour
     private void Update()
     {
      
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag=="player")
+            _playerTransform = collision.transform;
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "player")
+            _playerTransform = null;
     }
 }
