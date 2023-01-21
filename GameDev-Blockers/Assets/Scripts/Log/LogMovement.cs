@@ -21,12 +21,14 @@ public class LogMovement : MonoBehaviour
     private Vector3 _logMove;
     private Vector3 _toStartPosition;
     private Transform _playerTransform;
+    private GameObject _water;
+
     IEnumerator Move()
     {
         while(true)
         {
             yield return new WaitForSeconds(0.5f);
-            if (transform.position.x == direction * 5.5)
+            if (transform.position.x == direction * 6.5)
             {
                 transform.position += _toStartPosition;
                 continue;
@@ -41,7 +43,7 @@ public class LogMovement : MonoBehaviour
 
     private void Start()
     {
-        _toStartPosition = new Vector3(direction * -10f, 0f, 0f);
+        _toStartPosition = new Vector3(direction * -12f, 0f, 0f);
         _logMove = new Vector3(direction * 1f, 0f, 0f);
         StartCoroutine(Move());
     }
@@ -53,11 +55,17 @@ public class LogMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag=="player")
+        {
             _playerTransform = collision.transform;
+        }
+           
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.tag == "player")
+        {
             _playerTransform = null;
+        }
+        
     }
 }
