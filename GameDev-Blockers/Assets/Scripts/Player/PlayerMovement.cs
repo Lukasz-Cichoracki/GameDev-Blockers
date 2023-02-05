@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
 
-    private GameObject _log;
-    private Collider2D _playerCollision;
+    public static Collider2D playerCollision { get; private set; }
     private bool _isAlive = true;
+    public GameObject cameraObject;
 
     private void Start()
     {
-        _playerCollision = this.GetComponent<Collider2D>();
+        playerCollision = this.GetComponent<Collider2D>();
         _isAlive = true;
     }
     private void Update()
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             transform.position += new Vector3(0f, 1f, 0f);
+            cameraObject.transform.position += new Vector3(0f, 1f, 0f);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
@@ -35,11 +36,11 @@ public class PlayerMovement : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-        if (!_playerCollision.IsTouchingLayers(1 << 3))
+        if (!playerCollision.IsTouchingLayers(1 << 3) && !playerCollision.IsTouchingLayers(1 << 6))
         {
             _isAlive = false;
         }
-         
+       
      
 
     }

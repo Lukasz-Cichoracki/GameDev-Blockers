@@ -5,7 +5,6 @@ using UnityEngine;
 public class LogMovement : MonoBehaviour
 {
     private int logSpeed;
-
     public int LogSpeed
     {
         get { return logSpeed; }
@@ -21,30 +20,30 @@ public class LogMovement : MonoBehaviour
     private Vector3 _logMove;
     private Vector3 _toStartPosition;
     private Transform _playerTransform;
-    private GameObject _water;
-
+    private float _playerPosX;
     IEnumerator Move()
     {
         while(true)
         {
-            yield return new WaitForSeconds(0.5f);
-            if (transform.position.x == direction * 6.5)
+            yield return new WaitForSeconds(0.15f);
+            if (transform.position.x == direction * 6.75)
             {
                 transform.position += _toStartPosition;
                 continue;
             }
             transform.position += _logMove;
-            if (_playerTransform != null)
+            if (_playerTransform != null && !Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.D))
             {
                 _playerTransform.position = this.transform.position;
             }
         }
     }
 
+
     private void Start()
     {
-        _toStartPosition = new Vector3(direction * -12f, 0f, 0f);
-        _logMove = new Vector3(direction * 1f, 0f, 0f);
+        _toStartPosition = new Vector3(direction * -14f, 0f, 0f);
+        _logMove = new Vector3(direction * 0.25f, 0f, 0f);
         StartCoroutine(Move());
     }
 
@@ -57,11 +56,18 @@ public class LogMovement : MonoBehaviour
         if(collision.tag=="player")
         {
             _playerTransform = collision.transform;
+            _playerTransform.position = this.transform.position;
         }
            
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (PlayerMovement.playerCollision.IsTouchingLayers(1<<3))
+        {
+            _playerPosX = _playerTransform.position.x;
+            _playerPosX = Mathf.Round(_playerPosX);
+            _playerTransform.position = new Vector3(_playerPosX, _playerTransform.position.y, _playerTransform.position.z);
+        }
         if (collision.tag == "player")
         {
             _playerTransform = null;
