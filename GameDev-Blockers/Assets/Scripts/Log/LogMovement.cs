@@ -18,27 +18,28 @@ public class LogMovement : MonoBehaviour
     public int direction=1;
 
     private Vector3 _logMove;
-    private Vector3 _toStartPosition;
     private Transform _playerTransform;
     private float _playerPosX;
+
+    private Vector3 _toStartPosition;
+
     IEnumerator Move()
     {
         while(true)
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.1f);
             if (transform.position.x == direction * 6.75)
             {
                 transform.position += _toStartPosition;
                 continue;
             }
             transform.position += _logMove;
-            if (_playerTransform != null && !Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.D))
+            if (_playerTransform != null && (!Input.GetKeyDown(KeyCode.W) || !Input.GetKeyDown(KeyCode.S) || !Input.GetKeyDown(KeyCode.D)))
             {
-                _playerTransform.position = this.transform.position;
+                _playerTransform.position += new Vector3(direction*0.25f,0f,0f);
             }
         }
     }
-
 
     private void Start()
     {
@@ -47,10 +48,6 @@ public class LogMovement : MonoBehaviour
         StartCoroutine(Move());
     }
 
-    private void Update()
-    {
-     
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag=="player")
@@ -62,7 +59,7 @@ public class LogMovement : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (PlayerMovement.playerCollision.IsTouchingLayers(1<<3))
+        if (collision.tag == "player" && PlayerMovement.playerCollision.IsTouchingLayers(1<<3))
         {
             _playerPosX = _playerTransform.position.x;
             _playerPosX = Mathf.Round(_playerPosX);
@@ -71,7 +68,6 @@ public class LogMovement : MonoBehaviour
         if (collision.tag == "player")
         {
             _playerTransform = null;
-        }
-        
+        }   
     }
 }
