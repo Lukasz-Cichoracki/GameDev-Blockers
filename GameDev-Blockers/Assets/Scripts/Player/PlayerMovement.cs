@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public static Collider2D PlayerCollision { get; private set; }
+    public static Vector3 playerRespawn = new Vector3();
     private bool isAlive = true;
     [SerializeField] private GameObject cameraObject;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         PlayerCollision = this.GetComponent<Collider2D>();
+        playerRespawn = this.transform.position;
         isAlive = true;
     }
     private void Update()
@@ -26,11 +28,16 @@ public class PlayerMovement : MonoBehaviour
         Move();
         if (!isAlive)
         {
-            SceneManager.LoadScene(0);
+            transform.position = playerRespawn;
+            cameraObject.transform.position = new Vector3(0f, this.transform.position.y + 2.5f, 0f);
         }
         if (!PlayerCollision.IsTouchingLayers(1 << 3) && !PlayerCollision.IsTouchingLayers(1 << 6))
         {
             isAlive = false;
+        }
+        else
+        {
+            isAlive = true;
         }
     }
 

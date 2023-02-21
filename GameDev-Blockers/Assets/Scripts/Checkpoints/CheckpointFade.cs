@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 
 public class CheckpointFade : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro fadeText;
+    [SerializeField] private TextMeshProUGUI fadeText;
     private float fade = 0;
     IEnumerator Fade()
     {
