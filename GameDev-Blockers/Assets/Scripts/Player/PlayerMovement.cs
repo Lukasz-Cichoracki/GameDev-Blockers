@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,41 +8,53 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public static Collider2D playerCollision { get; private set; }
-    private bool _isAlive = true;
-    public GameObject cameraObject;
+    public static Collider2D PlayerCollision { get; private set; }
+    private bool isAlive = true;
+    [SerializeField] private GameObject cameraObject;
+
+    private float timeBetweenMoves = 0.0333f;
+    private float timestamp;
 
     private void Start()
     {
-        playerCollision = this.GetComponent<Collider2D>();
-        _isAlive = true;
+        PlayerCollision = this.GetComponent<Collider2D>();
+        isAlive = true;
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            transform.position += new Vector3(0f, 1f, 0f);
-            cameraObject.transform.position += new Vector3(0f, 1f, 0f);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            transform.position += new Vector3(-1f, 0f, 0f);
-        }
 
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            transform.position += new Vector3(1f, 0f, 0f);
-        }
-        if(!_isAlive)
+        Move();
+        if (!isAlive)
         {
             SceneManager.LoadScene(0);
         }
-        if (!playerCollision.IsTouchingLayers(1 << 3) && !playerCollision.IsTouchingLayers(1 << 6))
+        if (!PlayerCollision.IsTouchingLayers(1 << 3) && !PlayerCollision.IsTouchingLayers(1 << 6))
         {
-            _isAlive = false;
+            isAlive = false;
         }
-       
-     
+    }
 
+    private void Move()
+    {
+        if (Time.time >= timestamp)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                transform.position += Vector3.up;
+                cameraObject.transform.position += Vector3.up;
+                timestamp = Time.time +timeBetweenMoves;
+            }
+            else if (Input.GetKeyDown(KeyCode.A))
+            {
+                transform.position += Vector3.left;
+                timestamp = Time.time + timeBetweenMoves;
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                transform.position += Vector3.right;
+                timestamp = Time.time + timeBetweenMoves;
+            }
+        }
+        
     }
 }
