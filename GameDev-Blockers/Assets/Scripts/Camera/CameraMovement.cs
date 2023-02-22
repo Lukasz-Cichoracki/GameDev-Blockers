@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public GameObject player;
+    [SerializeField] private GameObject player;
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.W))

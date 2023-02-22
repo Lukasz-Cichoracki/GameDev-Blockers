@@ -4,8 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemyScript : MonoBehaviour
 {
-    public float enemySpeed=0.1f;
-    public int direction = 1;
+    [SerializeField] private float enemySpeed=0.1f;
+    [SerializeField] private int direction = 1;
     IEnumerator EnemyMove()
     {
         while (true)

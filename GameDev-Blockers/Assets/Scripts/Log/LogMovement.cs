@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class LogMovement : MonoBehaviour
 {
-    public float speed=0.1f;
-    public int direction=1;
-    private Transform _playerTransform;
-    private float _playerPosX;
+    [SerializeField] private float speed=0.1f;
+    [SerializeField] private int direction=1;
+    private Transform playerTransform;
+    private float playerPosX;
 
     IEnumerator Move()
     {
@@ -15,9 +15,9 @@ public class LogMovement : MonoBehaviour
         {
             yield return new WaitForSeconds(speed);
             GameManager.MoveGameObject(this.transform, direction);
-            if (_playerTransform != null && (!Input.GetKeyDown(KeyCode.W) || !Input.GetKeyDown(KeyCode.S) || !Input.GetKeyDown(KeyCode.D)))
+            if (playerTransform != null && (!Input.GetKeyDown(KeyCode.W) || !Input.GetKeyDown(KeyCode.S) || !Input.GetKeyDown(KeyCode.D)))
             {
-                _playerTransform.position += GameManager.move*direction;
+                playerTransform.position += GameManager.move*direction;
             }
         }
     }
@@ -31,22 +31,22 @@ public class LogMovement : MonoBehaviour
     {
         if(collision.tag=="player")
         {
-            _playerTransform = collision.transform;
-            _playerTransform.position = this.transform.position;
+            playerTransform = collision.transform;
+            playerTransform.position = this.transform.position;
         }
            
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == "player" && PlayerMovement.playerCollision.IsTouchingLayers(1<<3))
+        if (collision.tag == "player" && PlayerMovement.PlayerCollision.IsTouchingLayers(1<<3))
         {
-            _playerPosX = _playerTransform.position.x;
-            _playerPosX = Mathf.Round(_playerPosX);
-            _playerTransform.position = new Vector3(_playerPosX, _playerTransform.position.y, _playerTransform.position.z);
+            playerPosX = playerTransform.position.x;
+            playerPosX = Mathf.Round(playerPosX);
+            playerTransform.position = new Vector3(playerPosX, playerTransform.position.y, playerTransform.position.z);
         }
         if (collision.tag == "player")
         {
-            _playerTransform = null;
+            playerTransform = null;
         }   
     }
 }
