@@ -18,13 +18,4 @@ public class EnemyScript : MonoBehaviour
     {
         StartCoroutine(EnemyMove());
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.tag=="player")
-        {
-            SceneManager.LoadScene(0);
-        }
-
-    }
 }
