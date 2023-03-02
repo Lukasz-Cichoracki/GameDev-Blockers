@@ -30,14 +30,11 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = playerRespawn;
             cameraObject.transform.position = new Vector3(0f, this.transform.position.y + 2.5f, 0f);
+            isAlive = true;
         }
         if (!PlayerCollision.IsTouchingLayers(1 << 3) && !PlayerCollision.IsTouchingLayers(1 << 6))
         {
             isAlive = false;
-        }
-        else
-        {
-            isAlive = true;
         }
     }
 
@@ -63,5 +60,13 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag=="danger")
+        {
+            isAlive=false;
+        }
     }
 }
