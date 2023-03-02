@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public static void MoveGameObject(Transform objPosition,int direction)
     {
-        if (objPosition.position.x == direction * teleportPos)
+        if (objPosition.position.x==direction*teleportPos)
         {
             objPosition.position += toStartPosition * direction;
             return;
