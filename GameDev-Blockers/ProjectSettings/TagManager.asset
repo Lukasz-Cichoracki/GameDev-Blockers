@@ -7,6 +7,8 @@ TagManager:
   - log
   - danger
   - player
+  - teleport
+  - teleport2
   layers:
   - Default
   - TransparentFX

@@ -17,4 +17,18 @@ public class EnemyScript : MonoBehaviour
     {
         StartCoroutine(EnemyMove());
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "teleport" && direction == -1)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("teleport2");
+            transform.position = new Vector3(obj.transform.position.x, transform.position.y, transform.position.z);
+        }
+        if (collision.tag == "teleport2" && direction == 1)
+        {
+            GameObject obj = GameObject.FindGameObjectWithTag("teleport");
+            transform.position = new Vector3(obj.transform.position.x, transform.position.y, transform.position.z);
+        }
+    }
 }
+
