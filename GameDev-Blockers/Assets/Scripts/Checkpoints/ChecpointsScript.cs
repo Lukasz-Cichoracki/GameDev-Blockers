@@ -7,13 +7,11 @@ public class ChecpointsScript : MonoBehaviour
 {
     private GameObject fadeObject;
     private TextMeshProUGUI fadeText;
-    private ObjectDestoyer objDes;
+    [SerializeField] private GameObject allMovables;
     private void Start()
     {
         fadeObject = GameObject.Find("CheckpointText");
-        objDes = GameObject.Find("ObjectDestroyer").GetComponent<ObjectDestoyer>();
         fadeText = fadeObject.GetComponent<TextMeshProUGUI>();
-
     }
     private IEnumerator Fade()
     {
@@ -34,7 +32,7 @@ public class ChecpointsScript : MonoBehaviour
             }
             currentColor.a = 0;
             fadeText.color = currentColor;
-            objDes.StartCoroutine(objDes.DestroyObjects(this.transform.position));
+            Destroy(allMovables);
             Destroy(this.gameObject);
         }
     }
@@ -44,8 +42,7 @@ public class ChecpointsScript : MonoBehaviour
         if(collision.tag == "player")
         {
             PlayerMovement.playerRespawn = this.transform.position;
-            StartCoroutine("Fade");    
-            
+            StartCoroutine("Fade");        
         }
     }
 }

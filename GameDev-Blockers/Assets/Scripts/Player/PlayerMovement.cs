@@ -37,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
             isAlive = false;
         }
     }
-
     private void Move()
     {
         if (Time.time >= timestamp)
